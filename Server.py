@@ -61,7 +61,6 @@ class Server:
                 server_comm_msg3 = "O Header do Client foi recebido."
                 print(server_comm_msg3)
                 print("-------------------------")
-                time.sleep(1)
                 
                 # Retornando uma resposta do Header para o Client
                 server_comm_msg4 = "Enviando uma resposta do Header para o Client."
