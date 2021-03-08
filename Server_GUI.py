@@ -15,12 +15,16 @@ file_list_column = [
         sg.Combo(['ARDUINO', 'INTERNO'], enable_events=True,size=(10, 4), key='combo1'),
     ],
     [
+        sg.Text("Baud Rate"),
+        sg.Combo([4800,9600,115200,230400,460800], enable_events=True,size=(10, 4), key='combo2'),
+    ],
+    [
         sg.Text("Porta Server TX"),
-        sg.Combo(['COM1', 'COM2', 'COM3','COM4'], enable_events=True,size=(10, 4), key='combo2'),
+        sg.Combo(['COM1', 'COM2', 'COM3','COM4'], enable_events=True,size=(10, 4), key='combo3'),
     ],
     [
         sg.Text("Porta Server RX"),
-        sg.Combo(['COM1', 'COM2', 'COM3','COM4'], enable_events=True,size=(10, 4), key='combo3'),
+        sg.Combo(['COM1', 'COM2', 'COM3','COM4'], enable_events=True,size=(10, 4), key='combo4'),
     ],
     [sg.Button('Atribuir Portas',size=(15, 2),enable_events=True, key="-BEGIN-")],
     [sg.Text(size=(40, 1), key="-BEGINTXT-")],
@@ -77,16 +81,18 @@ while True:
     elif event == "-BEGIN-":  
         try:
             modo = values['combo1']
-            STX = values['combo2']
-            SRX = values['combo3']
+            STX = values['combo3']
+            SRX = values['combo4']
             if (((STX==SRX)and(filename!=None)and(modo=="ARDUINO"))or((STX!=SRX)and(filename!=None)and(modo=="INTERNO"))):
+                
+                baudrate = values['combo2']
                 
                 # Aviso para de início da GUI
                 begintxt = "O protocolo foi inicializado."
                 window["-BEGINTXT-"].update(begintxt)   
                 
                 # Iniciando a comunicação com Servidor
-                server_info = Server.Server(filename,STX,SRX)
+                server_info = Server.Server(filename,STX,SRX,baudrate)
                 server_init_resp = server_info.init_comm()
                 window["-ROUT1-"].update(server_init_resp[0])
                 window["-ROUT2-"].update(server_init_resp[1])

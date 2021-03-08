@@ -19,8 +19,8 @@ from enlaceTx import TX
 
 class enlace(object):
     
-    def __init__(self, name):
-        self.fisica      = fisica(name)
+    def __init__(self, name, baudrate):
+        self.fisica      = fisica(name, baudrate)
         self.rx          = RX(self.fisica)
         self.tx          = TX(self.fisica)
         self.connected   = False

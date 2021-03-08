@@ -16,10 +16,10 @@ import binascii
 # Interface com a camada física #
 #################################
 class fisica(object):
-    def __init__(self, name):
+    def __init__(self, name, BAUD):
         self.name        = name
         self.port        = None
-        self.baudrate    = 115200
+        self.baudrate    = BAUD
         #self.baudrate    = 9600
         self.bytesize    = serial.EIGHTBITS
         self.parity      = serial.PARITY_NONE

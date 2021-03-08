@@ -4,13 +4,14 @@ import numpy as np
 
 class Server:
     
-    def __init__(self, img_location, TX, RX):
+    def __init__(self, img_location, TX, RX, baudrate):
         self.location_w  = img_location
         self.comTX       = TX
         self.comRX       = RX
         self.rxBuffer_H = 0
         self.rxBuffer = 0
         self.rxBuffer_resp = 0
+        self.Baud_Rate = baudrate
         
     def init_comm(self):
             try:
@@ -20,8 +21,8 @@ class Server:
                 
                 # Declaramos um objeto do tipo enlace com o nome "com". Essa é a camada inferior à aplicação. Observe que um parametro
                 # para declarar esse objeto é o nome da porta.
-                self.STX = enlace(self.comTX)
-                self.SRX = enlace(self.comRX)
+                self.STX = enlace(self.comTX, self.Baud_Rate)
+                self.SRX = enlace(self.comRX, self.Baud_Rate)
                 
                 # Ativa comunicacao. Inicia os threads e a comunicação serial 
                 self.STX.enable()
