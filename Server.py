@@ -4,13 +4,14 @@ import numpy as np
 
 class Server:
     
-    def __init__(self, img_location, TX, RX):
+    def __init__(self, img_location, TX, RX, baudrate):
         self.location_w  = img_location
         self.comTX       = TX
         self.comRX       = RX
         self.rxBuffer_H = 0
         self.rxBuffer = 0
         self.rxBuffer_resp = 0
+        self.Baud_Rate = baudrate
         
     def init_comm(self):
             try:
@@ -20,8 +21,8 @@ class Server:
                 
                 # Declaramos um objeto do tipo enlace com o nome "com". Essa é a camada inferior à aplicação. Observe que um parametro
                 # para declarar esse objeto é o nome da porta.
-                self.STX = enlace(self.comTX)
-                self.SRX = enlace(self.comRX)
+                self.STX = enlace(self.comTX, self.Baud_Rate)
+                self.SRX = enlace(self.comRX, self.Baud_Rate)
                 
                 # Ativa comunicacao. Inicia os threads e a comunicação serial 
                 self.STX.enable()
@@ -51,19 +52,18 @@ class Server:
                 print("-------------------------")
                 
                 # Espera os dados do Header - Client
-                server_comm_msg2 = "Esperando o Header do Client."
+                server_comm_msg2 = "Esperando o Head do Client."
                 print(server_comm_msg2)
                 
                 self.rxBuffer_H, nRx_H = self.SRX.getData(2)
                 self.rxBuffer_resp = int.from_bytes(self.rxBuffer_H, "big")
                 print("-------------------------")
-                server_comm_msg3 = "O Header do Client foi recebido."
+                server_comm_msg3 = "O Head do Client foi recebido."
                 print(server_comm_msg3)
                 print("-------------------------")
-                time.sleep(1)
                 
                 # Retornando uma resposta do Header para o Client
-                server_comm_msg4 = "Enviando uma resposta do Header para o Client."
+                server_comm_msg4 = "Enviando uma resposta do Head para o Client."
                 print(server_comm_msg4)
                 self.STX.sendData(np.asarray(self.rxBuffer_H)) 
                 print("-------------------------")
